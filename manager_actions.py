@@ -4,22 +4,33 @@ from tkinter import messagebox
 import page_manager as pm
 import psycopg2 as pg2
 
-account='a'
-password='1'
-
-def update_account(new_account,new_password):
-	account =new_account
-	password=new_password
 
 def log_in(name,pw):
-	if name == account and pw == password:
-		pm.login_succeed()
+	try:
+		conn = pg2.connect("dbname='foodordering' user='{}' host='localhost' password= '{}' ".format(name,pw))
+	except:
+		messagebox.showerror("Error","Login fail: wrong account or password")
 	else:
-		pm.login_fail()
+		pm.login_succeed()
+		conn.close()
+	
 
-def update_password(na,npw):
-	account = na
-	password = npw
+def update_password(npw):
+	try:
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+	except:
+		print('Fail to connect to database')
+	cur = conn.cursor()
+
+	try:
+		cur.execute("ALTER USER manager WITH PASSWORD '{}'".format(npw))
+		conn.commit()
+	except:
+		messagebox.showerror("Error","Fail to update password")
+	else:
+		messagebox.showinfo("Succeed","Succeed to update password")
+	conn.close()
+
 
 #add a user to system
 def add_staff(staff_name,staff_password):
@@ -87,7 +98,7 @@ def list_foods():
 
 	cur = conn.cursor()
 
-	cur.execute("""Select foodname,quantity,price FROM food;""")
+	cur.execute("""Select foodid,foodname,quantity,price FROM food;""")
 	conn.commit()
 
 	foods = cur.fetchall()
@@ -96,15 +107,15 @@ def list_foods():
 	conn.close()
 
 # remove all foods in given name
-def remove_food(food_name):
+def remove_food(food_id):
 	try:
 		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
 	except:
 		print('Fail to connect to database')
-	
-	cur = conn.cursor()
 
-	cur.execute("""Delete FROM food WHERE foodname= '{}';""".format(food_name))
+
+	cur = conn.cursor()
+	cur.execute("DELETE FROM food WHERE foodid={}".format(food_id))
 	conn.commit()
 
 	conn.close()

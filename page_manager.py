@@ -133,20 +133,20 @@ class remove_food(tk.Frame):
 		master.title('Remove Food')
 		ma.list_foods()
 
-		T = Text(master, height=15, width=30)
+		T = Text(master, height=20, width=20)
 		T.grid(row=0)
 		
 		T.insert(END,"ID  Name Quantity Price"+'\n')
 		for food in foods:
 			T.insert(END,str(food[0])+'     '+food[1]+'        '+food[1]+'      '+str(food[2])+'\n')
 
-		label_1 = Label(master,text = 'food_name')
+		label_1 = Label(master,text = 'food_id')
 		label_1.grid(row=1,column=0)
 
 		entry_1 = Entry(master)
 		entry_1.grid(row=1,column=1)
 
-		btn1 = Button(master, text="Remove Food",height=1,width=15,command=ma.remove_food(entry_1.get()))
+		btn1 = Button(master, text="Remove Food",height=1,width=15,command=lambda: ma.remove_food(entry_1.get()))
 		btn1.grid(row=2,column=0)
 
 		btn2 = Button(master, text="Return",height=1,width=15,command = lambda: self.select_frame(master,page_manager))
@@ -157,6 +157,28 @@ class remove_food(tk.Frame):
 		f = new_frame(root)
 		self.master.destroy()
 
+class change_password(tk.Frame):
+	def __init__(self,master):
+		tk.Frame.__init__(self, master)
+		master.title('Change Password')
+		ma.list_foods()
+
+		label_1 = Label(master,text = 'New Password')
+		label_1.grid(row=0,column=0)
+
+		entry_1 = Entry(master)
+		entry_1.grid(row=0,column=1)
+
+		btn1 = Button(master, text="Submit",height=1,width=15,command=lambda: ma.update_password(entry_1.get()))
+		btn1.grid(row=1,column=0)
+
+		btn2 = Button(master, text="Return",height=1,width=15,command = lambda: self.select_frame(master,page_manager))
+		btn2.grid(row=1,column=1)
+
+	def select_frame(self,master,new_frame):
+		root =tk.Tk()
+		f = new_frame(root)
+		self.master.destroy()
 
 # list all the staffs in db
 def create_list_staffs():
@@ -203,7 +225,7 @@ class page_manager(tk.Frame):
 		btn6 = tk.Button(master, text="Remove Food",height=3,width=23,command=lambda: self.select_frame(master,remove_food))
 		btn6.pack(fill=X)
 
-		btn7 = tk.Button(master, text="Change Manager Name and Password",height=3,width=23)
+		btn7 = tk.Button(master, text="Change Manager Password",height=3,width=23,command=lambda: self.select_frame(master,change_password))
 		btn7.pack(fill=X)
 
 		btn4 = tk.Button(master, text="Return",height=3,width=23,command=lambda: self.select_frame(master,main_control.main))
@@ -214,10 +236,6 @@ class page_manager(tk.Frame):
 		root =tk.Tk()
 		f = new_frame(root)
 		self.master.destroy()
-
-# wrong name or password
-def login_fail():
-	messagebox.showerror("Error", "Invalid Manager Account or Password")
 
 # log in successfully and go in main page
 def login_succeed():

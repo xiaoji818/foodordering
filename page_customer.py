@@ -33,7 +33,10 @@ class page_customer(tk.Frame):
 	def select_frame(self,master,new_frame):
 		root =tk.Tk()
 		f = new_frame(root)
-		f.pack()
 		self.master.destroy()
+
+
+	
+
 
 	
