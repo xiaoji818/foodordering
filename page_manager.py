@@ -133,12 +133,12 @@ class remove_food(tk.Frame):
 		master.title('Remove Food')
 		ma.list_foods()
 
-		T = Text(master, height=20, width=20)
+		T = Text(master, height=20, width=70)
 		T.grid(row=0)
 		
-		T.insert(END,"ID  Name Quantity Price"+'\n')
+		T.insert(END,"ID               Name             Quantity             Price"+'\n')
 		for food in foods:
-			T.insert(END,str(food[0])+'     '+food[1]+'        '+food[1]+'      '+str(food[2])+'\n')
+			T.insert(END,str(food[0])+'   '+food[1]+'   '+food[2]+'  '+str(food[3])+'\n')
 
 		label_1 = Label(master,text = 'food_id')
 		label_1.grid(row=1,column=0)

@@ -6,18 +6,20 @@ import psycopg2 as pg2
 
 
 def log_in(name,pw):
+	global password
+	password=pw
 	try:
 		conn = pg2.connect("dbname='foodordering' user='{}' host='localhost' password= '{}' ".format(name,pw))
 	except:
 		messagebox.showerror("Error","Login fail: wrong account or password")
 	else:
-		pm.login_succeed()
+		pm.login_succeed()	
 		conn.close()
 	
 
 def update_password(npw):
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 	cur = conn.cursor()
@@ -35,7 +37,7 @@ def update_password(npw):
 #add a user to system
 def add_staff(staff_name,staff_password):
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 
@@ -54,7 +56,7 @@ def add_staff(staff_name,staff_password):
 # remove a staff from database
 def delete_staff(staff_name):
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 
@@ -74,7 +76,7 @@ def delete_staff(staff_name):
 # add a food to store menu
 def add_food(food_name,food_quantity,food_pic,food_price):
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 
@@ -91,8 +93,9 @@ def add_food(food_name,food_quantity,food_pic,food_price):
 
 # list all foods in menu
 def list_foods():
+	
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 
@@ -109,7 +112,7 @@ def list_foods():
 # remove all foods in given name
 def remove_food(food_id):
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 
@@ -124,7 +127,7 @@ def remove_food(food_id):
 # list all the users in the db
 def list_staffs():
 	try:
-		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= 'admin' ")
+		conn = pg2.connect("dbname='foodordering' user='manager' host='localhost' password= '{}' ".format(password))
 	except:
 		print('Fail to connect to database')
 

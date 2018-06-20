@@ -15,7 +15,7 @@ def view_order_list():
 def finish_list():
 	pass
 
-
+# check the validity of staff
 def check_staff(staff_name,password):
 	try:
 		conn = pg2.connect("dbname='foodordering' user='guest' host='localhost' password= '111' ")

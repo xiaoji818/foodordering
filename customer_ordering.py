@@ -5,15 +5,15 @@
 import order
 import customer
 import psycopg2 as pg2
+import page_customer as pc
 
 #Global Variables
 orderList = [] #list to store your current orders
 
-
-def add_customer(name,phone,address):
+def customer_login(name,phone,address):
 	global current_customer
 	current_customer=customer.customer(name,phone,address)
-	store_customer(current_customer)
+	return store_customer(current_customer)
 
 def store_customer(customer):
 	try:
@@ -30,7 +30,33 @@ def store_customer(customer):
 	except:
 		print ('customer exists already')
 
+	else:
+		return True
+		conn.close()
+
 	conn.close()
+
+
+def get_menu():
+
+	try:
+		conn = pg2.connect("dbname='foodordering' user='guest' host='localhost' password= '111' ")
+	except:
+		print('Fail to connect to database')
+
+	cur = conn.cursor()
+
+	try:
+		cur.execute("SELECT foodname,quantity,price,foodid FROM food")
+		conn.commit()
+	
+	except:
+		print ('Fail to access food menu')
+
+	food_menu=cur.fetchall()
+	conn.close()
+
+	return food_menu
 
 # Make an order
 def add_order(order):
